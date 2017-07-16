@@ -6,6 +6,10 @@ public class Account {
 	private String user;
 	private String password;
 	
+	public Account() {
+		super();
+	}
+	
 	public Account(String user, String password) {
 		this.user = user;
 		this.password = password;

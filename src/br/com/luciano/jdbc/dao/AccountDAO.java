@@ -2,7 +2,10 @@ package br.com.luciano.jdbc.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.luciano.jdbc.model.Account;
 
@@ -14,14 +17,51 @@ public class AccountDAO {
 		this.con = con;
 	}
 
-	public void insertAccount(Account account) throws SQLException {
+	public void createAccount(Account account) throws SQLException {
 		String sql = "insert into account(user,password) values(?,?)";
 		try (PreparedStatement stmt = con.prepareStatement(sql)) {
 			stmt.setString(1, account.getUser());
 			stmt.setString(2, account.getPassword());
-			boolean result = stmt.execute();
-			System.out.println("Insert: " + result);
+			stmt.execute();
+			System.out.println("Account inserted!");
 		}
+	}
+	
+	public void removeAccountByUser(String user) throws SQLException {
+		String sql = "delete from account where user = ?";
+		try (PreparedStatement stmt = con.prepareStatement(sql)) {
+			stmt.setString(1, user);
+			stmt.execute();
+			System.out.println("Account removed!");
+		}
+	}
+	
+	public void updateAccount(Account account) throws SQLException {
+		String sql = "update account set password = ? where id = ?";
+		try (PreparedStatement stmt = con.prepareStatement(sql)) {
+			stmt.setString(1, account.getPassword());
+			stmt.setInt(2, account.getId());
+			stmt.execute();
+			System.out.println("Account updated!");
+		}
+	}
+	
+	public List<Account> listAccounts() throws SQLException {
+		List<Account> list = new ArrayList<>();
+		String sql = "select * from account";
+		try (PreparedStatement stmt = con.prepareStatement(sql)) {
+			try (ResultSet result = stmt.executeQuery()) {
+				while (result.next()) {
+					Account account = new Account();
+					account.setId(result.getInt("id"));
+					account.setUser(result.getString("user"));
+					account.setPassword(result.getString("password"));
+					list.add(account);
+				}
+			}
+		}
+		System.out.println("All selected!");
+		return list;
 	}
 
 }

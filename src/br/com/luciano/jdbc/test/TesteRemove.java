@@ -4,24 +4,16 @@ import java.sql.SQLException;
 
 import br.com.luciano.jdbc.Database;
 import br.com.luciano.jdbc.dao.AccountDAO;
-import br.com.luciano.jdbc.model.Account;
 
-public class TestInsert {
-
+public class TesteRemove {
 	public static void main(String[] args) {
-
 		Database database = new Database();
-		
-		Account account = new Account("teste@gmail.com", "4444");
 		
 		try {
 			AccountDAO dao = new AccountDAO(database.getPoolConnection());
-			dao.createAccount(account);
-			System.out.println("Inserted!");
+			dao.removeAccountByUser("teste@gmail.com");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 	}
-
 }
