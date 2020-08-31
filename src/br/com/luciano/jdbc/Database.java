@@ -5,14 +5,14 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
+import com.mysql.cj.jdbc.MysqlDataSource;
 
 public class Database {
 
 	private DataSource dataSource;
 	
 	public Database() {
-		MysqlConnectionPoolDataSource pool = new MysqlConnectionPoolDataSource();
+		MysqlDataSource pool = new MysqlDataSource();
 		pool.setUrl("jdbc:mysql://localhost:3306/financas");
 		pool.setUser("root");
 		pool.setPassword("123456");
